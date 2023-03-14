@@ -6,5 +6,9 @@ class Sistema{
         $l = DBDRIVER.':host='.DBHOST.';dbname='.DBNAME.';port='.DBPORT;
         $this ->db = new PDO($l, DBUSER, DBPASS);
     }
+
+    public function flash($color, $msg){
+        include('views/flash.php');
+    }
 }
 ?>
