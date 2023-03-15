@@ -1,8 +1,17 @@
-<h1>Departamento</h1>
-<form method = "POST" action = "departamento.php?actions=<?php echo $action; ?>">
-    <label class = "form-labbel">Nombre del departamento</label>
-    <input type = "text" class = "form-control" name = "data[departamento]" placeholder = "Departamento" value = "<?php echo isset($data[0]['departamento'])?$data[0]['departamento'] :''; ?>">
-    <div class = "mb-3">
-        <input type = "submit" class = "btn btn-primary" name = "enviar" value = "Guardar">
-    </div>
+<h1>
+  <?php echo ($action == 'edit') ? 'Modificar ' : 'Nuevo ' ?>Departamento
+</h1>
+<form method="POST" action="departamento.php?action=<?php echo $action; ?>">
+  <div class="mb-3">
+    <label class="form-label">Nombre del Departamento</label>
+    <input type="text" name="data[departamento]" class="form-control" placeholder="Departamento"
+      value="<?php echo isset($data[0]['departamento']) ? $data[0]['departamento'] : ''; ?>" required minlength="3" maxlength="50" />
+  </div>
+  <div class="mb-3">
+    <?php if ($action == 'edit'): ?>
+      <input type="hidden" name="data[id_departamento]"
+        value="<?php echo isset($data[0]['id_departamento']) ? $data[0]['id_departamento'] : ''; ?>">
+    <?php endif; ?>
+    <input type="submit" name="enviar" value="Guardar" class="btn btn-primary" />
+  </div>
 </form>
