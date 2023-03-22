@@ -12,13 +12,13 @@
             <table class="table table-responsive table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">nombre del proyecto</th>
-                        <th scope="col">departamento</th>
-                        <th scope="col">descripción</th>
-                        <th scope="col">fecha de inicio</th>
-                        <th scope="col">fecha de fin</th>
-                        <th scope="col">archivo</th>
-                        <th scope="col">operación</th>
+                        <th scope="col-md-1">Nombre</th>
+                        <th scope="col-md-1">Departamento</th>
+                        <th scope="col-md-1">Descripción</th>
+                        <th scope="col-md-1">Fecha de inicio</th>
+                        <th scope="col-md-1">Fecha de fin</th>
+                        <th scope="col-md-1">Archivo</th>
+                        <th scope="col-md-2">Operación</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,6 +58,12 @@
                         </tr>
                     <?php endforeach ?>
                     <tr>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
                         <th>
                             Se encontraron
                             <?php echo $nReg ?> registros.

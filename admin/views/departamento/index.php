@@ -3,8 +3,9 @@
 <table class="table table-responsive table-bordered">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Departamento</th>
+            <th scope="col" class="col-md-1">Id</th>
+            <th scope="col" class="col-md-8">Departamento</th>
+            <th scope="col" class="col-md-3">Opciones</th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +30,8 @@
             </tr>
         <?php endforeach; ?>
         <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
             <th>
                 Se encontraron
                 <?php echo $nReg ?> registros.

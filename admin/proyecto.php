@@ -80,7 +80,7 @@ switch ($action) {
     case 'newtask':
         $data = $proyecto->get($id);
         //$data_tarea = $proyecto->getTask($id);
-        include('views/proyecto/tarea_form.php');
+        include('views/proyecto/tarea.form.php');
         break;
     case 'getAll':
     default:

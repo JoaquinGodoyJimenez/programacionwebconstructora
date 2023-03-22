@@ -11,9 +11,10 @@
     <table class="table table-responsive table-bordered">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Tarea</th>
-                <th scope="col">% Avance</th>
+                <th scope="col-md-1">#</th>
+                <th scope="col-md-1">Tarea</th>
+                <th scope="col-md-1">% Avance</th>
+                <th scope="col-md-2">Operación</th>
             </tr>
         </thead>
         <tbody>
