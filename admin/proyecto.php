@@ -1,70 +1,91 @@
 <?php
 require_once("controllers/proyecto.php");
 require_once("controllers/departamento.php");
-include_once('views/header.php');
-include_once('views/menu.php');
-include_once('views/footer.php');
-$action = (isset($_GET['action']))?$_GET['action']:'get';
-$id = (isset($_GET['id']))?$_GET['id']:null;
-switch($action){
+include_once("views/header.php");
+include_once("views/menu.php");
+
+$action = (isset($_GET["action"])) ? $_GET["action"] : null;
+$id = (isset($_GET['id'])) ? $_GET['id'] : null;
+$id_tarea = (isset($_GET['id_tarea'])) ? $_GET['id_tarea'] : null;
+
+switch ($action) {
     case 'new':
-        
-        $datadepartamentos =  $departamento->get();
-        if(isset($_POST['enviar'])){
-            //$finne = $proyecto->uploadfile('archivo','/opt/lampp/htdocs/constructora/admin/uploads/', 1);
-            //print_r($finne);
+        $dataDepartamentos = $departamento->get(null);
+        if (isset($_POST['enviar'])) {
             $data = $_POST['data'];
-            $cantidad = $proyecto -> new($data);
-            if($cantidad){
-                $proyecto -> flash('success',"Registro dado de alta con éxito");
-                $data = $proyecto->get();
+            $cantidad = $proyecto->new($data);
+            if ($cantidad) {
+                $proyecto->flash('success', 'Registro dado de alta con éxito');
+                $data = $proyecto->get(null);
                 include('views/proyecto/index.php');
-            } else{
-                $proyecto -> flash('danger',"Algo falla");
+            } else {
+                $proyecto->flash('danger', 'Algo fallo');
                 include('views/proyecto/form.php');
             }
-        } else{
+        } else {
             include('views/proyecto/form.php');
+        }
+        break;
+    case 'delete':
+        $cantidad = $proyecto->delete($id);
+        if ($cantidad) {
+            $proyecto->flash('success', 'Registro con el id= ' . $id . ' eliminado con éxito');
+            $data = $proyecto->get(null);
+            include('views/proyecto/index.php');
+        } else {
+            $proyecto->flash('danger', 'Algo fallo');
+            $data = $proyecto->get(null);
+            include('views/proyecto/index.php');
         }
         break;
     case 'edit':
-        $datadepartamentos =  $departamento->get();
-        if(isset($_POST['enviar'])){
+        $dataDepartamentos = $departamento->get(null);
+        if (isset($_POST['enviar'])) {
             $data = $_POST['data'];
             $id = $_POST['data']['id_proyecto'];
-            $cantidad = $proyecto -> edit($id,$data);
-            if($cantidad){
-                $proyecto -> flash('success',"Actualización con éxito");
-                $data = $proyecto->get();
+            $cantidad = $proyecto->edit($id, $data);
+            if ($cantidad) {
+                $proyecto->flash('success', 'Registro actualizado con éxito');
+                $data = $proyecto->get(null);
                 include('views/proyecto/index.php');
-            } else{
-                $proyecto -> flash('danger',"Algo falla");
-                $data = $proyecto->get();
+            } else {
+                $proyecto->flash('danger', 'Algo fallo');
+                $data = $proyecto->get(null);
                 include('views/proyecto/index.php');
             }
-        } else{
-            $data = $proyecto ->get($id);
+        } else {
+            $data = $proyecto->get($id);
             include('views/proyecto/form.php');
         }
         break;
-
-    case 'delete':
-        $cantidad = $proyecto->delete($id);
-            if($cantidad){
-                $proyecto -> flash('success',"Registro eliminado con éxito");
-                $data = $proyecto->get();
-                include('views/proyecto/index.php');
-            } else{
-                $proyecto -> flash('danger',"Algo falla");
-                $data = $proyecto->get();
-                include('views/proyecto/index.php');
-            }
-        break;
-    case 'get':
-    default:
+    case 'task':
         $data = $proyecto->get($id);
-        include("views/proyecto/index.php");
+        $data_tarea = $proyecto->getTask($id);
+        include('views/proyecto/tarea.php');
         break;
+    case 'deletetask':
+        $cantidad = $proyecto->deleteTask($id_tarea);
+        if ($cantidad) {
+            $proyecto->flash('success', 'Registro con el id= ' . $id_tarea . ' eliminado con éxito');
+            $data = $proyecto->get($id);
+            $data_tarea = $proyecto->getTask($id);
+            include('views/proyecto/tarea.php');
+        } else {
+            $proyecto->flash('danger', 'Algo fallo');
+            $data = $proyecto->get($id);
+            $data_tarea = $proyecto->getTask($id);
+            include('views/proyecto/tarea.php');
+        }
+        break;
+    case 'newtask':
+        $data = $proyecto->get($id);
+        //$data_tarea = $proyecto->getTask($id);
+        include('views/proyecto/tarea_form.php');
+        break;
+    case 'getAll':
+    default:
+        $data = $proyecto->get(null);
+        include("views/proyecto/index.php");
 }
-
+include("views/footer.php");
 ?>
