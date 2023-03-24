@@ -169,6 +169,70 @@ class Proyecto extends Sistema{
         $rc = $st->rowCount();
         return $rc;
     }
+    /**
+     * Nueva tarea
+     *
+     * @return integer $rc cantidad de filas afectadas por el insert
+     * @param  integer $id el identificador de la tarea a insertar
+     *           array $data los datos de la tarea
+     */
+    public function newTask ($id, $data)
+    {
+        $this->db();
+        $sql = "INSERT INTO tarea (id_proyecto, tarea, avance) VALUES (:id_proyecto, :tarea, :avance)";
+        $st = $this->db->prepare($sql);
+        $st->bindParam(":id_proyecto", $id, PDO::PARAM_INT);
+        $st->bindParam(":tarea", $data['tarea'], PDO::PARAM_STR);
+        $st->bindParam(":avance", $data['avance'], PDO::PARAM_INT);
+        $st->execute();
+
+        $rc = $st->rowCount();
+        return $rc;
+    }
+    /**
+    * Obtiene las tareas solicitado
+    *
+    * @return array $data las tareas solicitadas
+    * @param integer $id si se especifica un id solo obtiene la tarea solicitada, de lo contrario obtiene todas
+    */
+    public function getTaskOne($id)
+    {
+        $data=null;
+        $this->db();
+        if (is_null($id)) {
+            die("Ocurrió un error");
+        } else {
+            $sql = "select * from tarea t left join proyecto p 
+            on p.id_proyecto = t.id_proyecto where t.id_tarea=:id";
+            $st = $this->db->prepare($sql);
+            $st->bindParam(":id", $id, PDO::PARAM_INT);
+            $st->execute();
+            $data = $st->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $data;
+    }
+    /**
+     * Editar tarea
+     *
+     * @return integer $rc cantidad de filas afectadas por el update
+     * @param  integer $id el identificador de la tarea a editar
+     *         array $data los datos modificados de la tarea
+     */
+    public function editTask($id, $id_tarea, $data)
+    {
+        $this->db();
+        $sql = "UPDATE tarea SET tarea = :tarea, avance =:avance where id_tarea= :id_tarea AND id_proyecto=:id";
+        $st = $this->db->prepare($sql);
+        $st->bindParam(":id", $id, PDO::PARAM_INT);
+        $st->bindParam(":id_tarea", $id_tarea, PDO::PARAM_INT);
+        $st->bindParam(":tarea", $data['tarea'], PDO::PARAM_STR);
+        $st->bindParam(":avance", $data['avance'], PDO::PARAM_INT);
+
+        $st->execute();
+
+        $rc = $st->rowCount();
+        return $rc;
+    }
 }
 //Objeto de la clase Proyecto
 $proyecto = new Proyecto; 

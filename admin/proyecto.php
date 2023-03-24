@@ -29,6 +29,7 @@ switch ($action) {
     case 'delete':
         $cantidad = $proyecto->delete($id);
         if ($cantidad) {
+
             $proyecto->flash('success', 'Registro con el id= ' . $id . ' eliminado con éxito');
             $data = $proyecto->get(null);
             include('views/proyecto/index.php');
@@ -79,8 +80,38 @@ switch ($action) {
         break;
     case 'newtask':
         $data = $proyecto->get($id);
+        if (isset($_POST['enviar'])) {
+            $data2 = $_POST['data'];
+            $cantidad = $proyecto->newTask($id, $data2);
+            if ($cantidad) {
+                $proyecto->flash('success', 'Registro dado de alta con éxito');
+            } else {
+                $proyecto->flash('danger', 'Algo fallo');
+            }
+            $data_tarea = $proyecto->getTask($id);
+            include('views/proyecto/tarea.php');
+        } else {
+            include('views/proyecto/tarea.form.php');
+        }
         //$data_tarea = $proyecto->getTask($id);
-        include('views/proyecto/tarea.form.php');
+        break;
+    case 'edittask':
+        $data = $proyecto->get($id);
+        if (isset($_POST['enviar'])) {
+            $data2 = $_POST['data'];
+            $id_tarea = $_POST['data']['id_tarea'];
+            $cantidad = $proyecto->editTask($id, $id_tarea, $data2);
+            if ($cantidad) {
+                $proyecto->flash('success', 'Registro dado de alta con éxito');
+            } else {
+                $proyecto->flash('danger', 'Algo fallo');
+            }
+            $data_tarea = $proyecto->getTask($id);
+            include('views/proyecto/tarea.php');
+        } else {
+            $data_tarea = $proyecto->getTaskOne($id_tarea);
+            include('views/proyecto/tarea.form.php');
+        }
         break;
     case 'getAll':
     default:
@@ -88,4 +119,3 @@ switch ($action) {
         include("views/proyecto/index.php");
 }
 include("views/footer.php");
-?>
