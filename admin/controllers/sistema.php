@@ -37,5 +37,14 @@ class Sistema{
         }
         return $name;
     }
+
+    public function login($correo, $contrasena){
+        $_SESSION['logeado'] = true;
+    }
+
+    public function logout(){
+        unset($_SESSION['logeado']);
+        session_destroy();
+    }
 }
 ?>
